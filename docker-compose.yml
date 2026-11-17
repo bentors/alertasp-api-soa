@@ -1,0 +1,41 @@
+services:
+  db:
+    image: postgres:16
+    environment:
+      POSTGRES_DB: alertasp
+      POSTGRES_USER: alertasp
+      POSTGRES_PASSWORD: alertasp
+    ports:
+      - "${DB_PORT:-5432}:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U alertasp -d alertasp"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  api:
+    build: .
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      DB_URL: jdbc:postgresql://db:5432/alertasp
+      DB_USER: alertasp
+      DB_PASSWORD: alertasp
+    ports:
+      - "${API_PORT:-8080}:8080"
+
+  test:
+    image: maven:3.9-eclipse-temurin-21
+    profiles: ["test"]
+    working_dir: /app
+    volumes:
+      - .:/app
+      - m2:/root/.m2
+    command: mvn -q test
+
+volumes:
+  pgdata:
+  m2:
