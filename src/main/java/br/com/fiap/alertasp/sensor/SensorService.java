@@ -1,6 +1,8 @@
 package br.com.fiap.alertasp.sensor;
 
+import br.com.fiap.alertasp.alerta.OrigemAlerta;
 import br.com.fiap.alertasp.ponto.PontoService;
+import br.com.fiap.alertasp.risco.RiscoService;
 import br.com.fiap.alertasp.sensor.SensorDtos.MedicaoRequest;
 import br.com.fiap.alertasp.sensor.SensorDtos.SensorRequest;
 import br.com.fiap.alertasp.shared.ConflitoException;
@@ -16,11 +18,14 @@ public class SensorService {
     private final SensorRepository sensores;
     private final MedicaoRepository medicoes;
     private final PontoService pontoService;
+    private final RiscoService riscoService;
 
-    public SensorService(SensorRepository sensores, MedicaoRepository medicoes, PontoService pontoService) {
+    public SensorService(SensorRepository sensores, MedicaoRepository medicoes, PontoService pontoService,
+                         RiscoService riscoService) {
         this.sensores = sensores;
         this.medicoes = medicoes;
         this.pontoService = pontoService;
+        this.riscoService = riscoService;
     }
 
     public Sensor buscar(Long id) {
@@ -62,7 +67,7 @@ public class SensorService {
         Sensor sensor = sensores.findByCodigo(codigo)
                 .orElseThrow(() -> new NaoEncontradoException("Sensor", codigo));
         Medicao medicao = medicoes.save(new Medicao(sensor, req.distanciaCm()));
-        sensor.getPonto().atualizarRisco(medicao.nivelRisco());
+        riscoService.aplicar(sensor.getPonto(), medicao.nivelRisco(), OrigemAlerta.SENSOR);
         return medicao;
     }
 
