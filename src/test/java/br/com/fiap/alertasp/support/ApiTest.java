@@ -42,6 +42,16 @@ public abstract class ApiTest {
                  "localizacao":{"latitude":%s,"longitude":%s}}""".formatted(lat, lng));
     }
 
+    protected long criarUsuario(String email) throws Exception {
+        return criar("/usuarios", """
+                {"nome":"Cidadão Teste","email":"%s"}""".formatted(email));
+    }
+
+    protected long criarRota(long usuarioId, String pontosJson) throws Exception {
+        return criar("/usuarios/" + usuarioId + "/rotas", """
+                {"nome":"Casa → Trabalho","raioAlertaMetros":300,"pontos":%s}""".formatted(pontosJson));
+    }
+
     protected long criarSensor(String codigo, long pontoId, double altura, double limite) throws Exception {
         return criar("/sensores", """
                 {"codigo":"%s","pontoId":%d,"alturaInstalacaoCm":%s,"limiteAlertaCm":%s}"""
