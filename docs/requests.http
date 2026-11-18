@@ -1,0 +1,44 @@
+### Roteiro de demonstração do AlertaSP
+@api = http://localhost:8080
+
+### 1. Rotas da usuária demo
+GET {{api}}/usuarios/1/rotas
+
+### 2. Leitura do sensor ESP32-005 acima do limite (água a 50 cm, limite 30 cm)
+POST {{api}}/sensores/ESP32-005/medicoes
+Content-Type: application/json
+
+{"distanciaCm": 150}
+
+### 3. O ponto passa a risco ALTO
+GET {{api}}/pontos/5
+
+### 4. Alerta gerado para a rota "Casa → Trabalho"
+GET {{api}}/usuarios/1/alertas?lido=false
+
+### 5. Marca o alerta como lido
+PATCH {{api}}/alertas/1/lido
+
+### 6. Avaliação do modelo de ML
+POST {{api}}/pontos/1/avaliacoes-risco
+Content-Type: application/json
+
+{"nivel": "ALTO", "probabilidade": 0.87, "modelo": "random-forest-v1"}
+
+### 7. Ocorrência reportada por um cidadão
+POST {{api}}/ocorrencias
+Content-Type: application/json
+
+{"pontoId": 2, "localizacao": {"latitude": -23.5135, "longitude": -46.671}, "descricao": "Água cobrindo a faixa da direita", "fonte": "CIDADAO"}
+
+### 8. Novo usuário com uma rota
+POST {{api}}/usuarios
+Content-Type: application/json
+
+{"nome": "Maria Souza", "email": "maria@email.com"}
+
+### 9. Validação: rota com um único ponto retorna 400
+POST {{api}}/usuarios/1/rotas
+Content-Type: application/json
+
+{"nome": "Inválida", "pontos": [{"latitude": -23.54, "longitude": -46.57}]}
