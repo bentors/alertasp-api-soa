@@ -7,9 +7,11 @@
 
 | Nome | RM |
 |------|----|
-| TODO | TODO |
-| TODO | TODO |
-| TODO | TODO |
+| Bento Rangel | RM559124 |
+| Eric Yuji | RM554869 |
+| Higor Batista | RM558907 |
+| Kaue Pires | RM554403 |
+| Ricardo Di Tilia | RM555155 |
 
 ## O problema
 
