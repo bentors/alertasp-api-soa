@@ -235,6 +235,14 @@ Capturas de tela da aplicação em funcionamento estão em [`docs/evidencias/`](
 
 ![Validação de dados](docs/evidencias/validacao.png)
 
+**7. Migrações Flyway aplicadas no PostgreSQL**
+
+![Migrações Flyway](docs/evidencias/migracoes.png)
+
+**8. Testes automatizados: 43 testes, nenhuma falha**
+
+![Testes automatizados](docs/evidencias/testes.png)
+
 ## Próximos passos
 
 - Notificações push no app (hoje o app consulta `/usuarios/{id}/alertas`);
