@@ -34,9 +34,10 @@ class PontoControllerTest extends ApiTest {
 
     @Test
     void listarPontos_filtraPorNivelMinimo() throws Exception {
-        criarPonto(-23.51, -46.67);
-        mockMvc.perform(get("/pontos").param("nivelMinimo", "ALTO"))
+        long baixo = criarPonto(-23.51, -46.67);
+        mockMvc.perform(get("/pontos").param("nivelMinimo", "ALTO").param("size", "100"))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.content.length()").value(0));
+                .andExpect(jsonPath("$.content[?(@.id == %d)]".formatted(baixo)).isEmpty())
+                .andExpect(jsonPath("$.content[?(@.nivelRiscoAtual in ['BAIXO','MEDIO'])]").isEmpty());
     }
 }
