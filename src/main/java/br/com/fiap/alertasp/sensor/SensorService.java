@@ -66,6 +66,10 @@ public class SensorService {
     public Medicao registrarMedicao(String codigo, MedicaoRequest req) {
         Sensor sensor = sensores.findByCodigo(codigo)
                 .orElseThrow(() -> new NaoEncontradoException("Sensor", codigo));
+        if (sensor.getStatus() != StatusSensor.ATIVO) {
+            throw new ConflitoException("Sensor " + codigo + " está " + sensor.getStatus()
+                    + "; leituras só são aceitas de sensores ATIVO.");
+        }
         Medicao medicao = medicoes.save(new Medicao(sensor, req.distanciaCm()));
         riscoService.aplicar(sensor.getPonto(), medicao.nivelRisco(), OrigemAlerta.SENSOR);
         return medicao;

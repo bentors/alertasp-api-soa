@@ -1,6 +1,7 @@
 package br.com.fiap.alertasp.shared;
 
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.mapping.PropertyReferenceException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ProblemDetail;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -27,6 +28,12 @@ public class GlobalExceptionHandler {
     ProblemDetail integridade(DataIntegrityViolationException e) {
         return ProblemDetail.forStatusAndDetail(HttpStatus.CONFLICT,
                 "Operação viola a integridade dos dados (registro duplicado ou ainda referenciado).");
+    }
+
+    @ExceptionHandler(PropertyReferenceException.class)
+    ProblemDetail ordenacaoInvalida(PropertyReferenceException e) {
+        return ProblemDetail.forStatusAndDetail(HttpStatus.BAD_REQUEST,
+                "Campo de ordenação inválido: " + e.getPropertyName());
     }
 
     @ExceptionHandler(IllegalArgumentException.class)

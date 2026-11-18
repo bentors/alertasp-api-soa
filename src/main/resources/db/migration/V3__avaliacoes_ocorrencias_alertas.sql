@@ -26,7 +26,7 @@ create table alerta (
     local_favorito_id bigint references local_favorito (id) on delete set null,
     nivel             varchar(10)  not null,
     origem            varchar(12)  not null,
-    mensagem          varchar(300) not null,
+    mensagem          varchar(400) not null,
     criado_em         timestamp    not null,
     lido              boolean      not null default false
 );
