@@ -211,10 +211,29 @@ REST Client do VS Code).
 
 Capturas de tela da aplicação em funcionamento estão em [`docs/evidencias/`](docs/evidencias/).
 
-<!-- TODO: adicionar as imagens, por exemplo:
+**1. Swagger UI com a documentação dos endpoints**
+
 ![Swagger UI](docs/evidencias/swagger.png)
+
+**2. Rota "Casa → Trabalho" da usuária, com raio de alerta de 300 m**
+
+![Rotas da usuária](docs/evidencias/rotas.png)
+
+**3. O sensor ESP32-005 envia uma medição e o nível de risco é calculado como ALTO**
+
+![Medição do sensor](docs/evidencias/medicao.png)
+
+**4. O ponto "Av. Aricanduva x Radial Leste" passa a risco ALTO**
+
+![Ponto em risco alto](docs/evidencias/ponto-alto.png)
+
+**5. A usuária recebe um alerta, porque o ponto está próximo da rota dela**
+
 ![Alerta gerado](docs/evidencias/alerta.png)
--->
+
+**6. Validação: dados inválidos retornam 400 com os campos e as mensagens de erro**
+
+![Validação de dados](docs/evidencias/validacao.png)
 
 ## Próximos passos
 
